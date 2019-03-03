@@ -1,0 +1,38 @@
+<?php
+
+/**
+ * @file
+ * Contains varbase_email.module.
+ */
+
+ /**
+  * Implements hook_theme().
+  */
+
+ function varbase_email_theme($existing, $type, $theme, $path)
+ {
+     $templates = $path . '/templates';
+
+     $return['mimemail_messages'] = [
+       'template' => 'varbase_emails',
+       'path' => $templates,
+       'variables' => [
+         'module' => '',
+         'key' => '',
+         'recipient' => '',
+         'subject' => '',
+         'body' => '',
+       ],
+     ];
+     return $return;
+ }
+
+
+ /**
+  * Prepares variables for varbase_emails.html.twig templates.
+  * Implements hook_preprocess_HOOK() for field templates.
+  */
+ function varbase_email_preprocess_mimemail_messages(&$variables)
+ {
+    $variables['logo'] = file_create_url(theme_get_setting('logo.url'));
+ }

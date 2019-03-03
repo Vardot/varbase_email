@@ -1,0 +1,8 @@
+name: 'Varbase Email'
+type: module
+description: 'Adds email template for varbase emails'
+core: 8.x
+package: Varbase
+dependencies:
+  - smtp:smtp
+  - mimemail:mimemail

@@ -1,0 +1,17 @@
+theme: current
+defaults:
+  sender: SMTPMailSystem
+  formatter: mime_mail
+modules:
+  system:
+    none:
+      formatter: mime_mail
+      sender: SMTPMailSystem
+  smtp:
+    none:
+      formatter: mime_mail
+      sender: SMTPMailSystem
+  htmlmail:
+    none:
+      formatter: mime_mail
+      sender: SMTPMailSystem
