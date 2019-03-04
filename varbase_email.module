@@ -13,16 +13,13 @@
  {
      $templates = $path . '/templates';
 
-     $return['mimemail_messages'] = [
+     $return['swiftmailer'] = [
        'template' => 'varbase_emails',
        'path' => $templates,
        'variables' => [
-         'module' => '',
-         'key' => '',
-         'recipient' => '',
-         'subject' => '',
-         'body' => '',
+         'message' => [],
        ],
+       'mail theme' => TRUE,
      ];
      return $return;
  }
@@ -32,7 +29,7 @@
   * Prepares variables for varbase_emails.html.twig templates.
   * Implements hook_preprocess_HOOK() for field templates.
   */
- function varbase_email_preprocess_mimemail_messages(&$variables)
+ function varbase_email_preprocess_swiftmailer(&$variables)
  {
     $variables['logo'] = file_create_url(theme_get_setting('logo.url'));
  }

@@ -20,7 +20,7 @@
     "drupal": {
       "type": "composer",
       "url": "https://packages.drupal.org/8"
-      },
+    },
     "assets": {
       "type": "composer",
       "url": "https://asset-packagist.org"
@@ -28,6 +28,6 @@
   },
   "require": {
     "drupal/smtp": "^1.0-beta4",
-    "drupal/mimemail": "^1.0@alpha",
+    "drupal/mimemail": "^1.0@alpha"
   }
 }
