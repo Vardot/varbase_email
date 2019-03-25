@@ -27,15 +27,15 @@
     }
   },
   "require": {
-    "drupal/smtp": "^1.0",
-    "drupal/mimemail": "^1.0"
-  }
-  "extra": {
-  "branch-alias": {
-    "dev-8.x-6.x": "8.6.x-dev"
+    "drupal/swiftmailer": "~1.0"
   },
-  "installer-types": [
-    "bower-asset",
-    "npm-asset"
-  ]
+  "extra": {
+    "branch-alias": {
+      "dev-8.x-6.x": "8.6.x-dev"
+    },
+    "installer-types": [
+      "bower-asset",
+      "npm-asset"
+    ]
+  }
 }
