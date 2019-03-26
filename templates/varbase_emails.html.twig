@@ -54,13 +54,17 @@
             margin: 0;
             padding: 0;
             -ms-text-size-adjust: 100%;
-            -webkit-text-size-adjust: 100%; }
+            -webkit-text-size-adjust: 100%;
+            direction: {{dir}};
+        }
 
         table {
             border-collapse: separate;
             mso-table-lspace: 0pt;
             mso-table-rspace: 0pt;
-            width: 100%; }
+            width: 100%;
+            direction: {{dir}};
+        }
         table td {
             font-family: sans-serif;
             font-size: 14px;
@@ -113,7 +117,8 @@
             background: #fff;
             border-radius: 3px;
             width: 100%;
-            box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24); }
+            box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);
+        }
 
         .wrapper {
             box-sizing: border-box;
@@ -355,7 +360,7 @@
                     {{ heading }}
                 </div>
 
-                <table class="main">
+                <table class="main" style="background: #fff;border-radius: 3px;width: 100%;box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);">
 
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
