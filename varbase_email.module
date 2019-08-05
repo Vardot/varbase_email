@@ -5,6 +5,8 @@
  * Contains varbase_email.module.
  */
 
+use Drupal\file\Entity\File;
+
 /**
  * Implements hook_theme().
  */
@@ -43,8 +45,8 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
   else {
     $fid = theme_get_setting('email_logo_upload', $theme_id);
     if ($fid && is_array($fid) && count($fid)) {
-      $file = file_load($fid[0]);
-      $url = $file->url();
+      $file = File::load($fid[0]);
+      $url = $file->createFileUrl();
       $variables['logo'] = $url;
     }
     elseif (theme_get_setting('email_logo_path', $theme_id)) {
