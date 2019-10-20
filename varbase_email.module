@@ -46,8 +46,10 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
     $fid = theme_get_setting('email_logo_upload', $theme_id);
     if ($fid && is_array($fid) && count($fid)) {
       $file = File::load($fid[0]);
-      $url = $file->createFileUrl();
-      $variables['logo'] = $url;
+      if ($file) {
+        $url = $file->createFileUrl();
+        $variables['logo'] = $url;
+      }
     }
     elseif (theme_get_setting('email_logo_path', $theme_id)) {
       $uri = theme_get_setting('email_logo_path', $theme_id);

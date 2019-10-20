@@ -352,9 +352,11 @@
                 <!-- START CENTERED WHITE CONTAINER -->
                 <span class="preheader"></span>
 
-                <div class="header">
-                    <img src="{{ logo }}" alt="Logo" class="logo" />
-                </div>
+                {% if logo %}
+                    <div class="header">
+                        <img src="{{ logo }}" alt="Logo" class="logo" />
+                    </div>
+                {% endif %}
 
                 <div class="postheader">
                     {{ heading }}
