@@ -1,9 +1,7 @@
 name: 'Varbase Email'
 type: module
 description: 'Adds email template for varbase emails'
-core: 8.x
 package: Varbase
-project: varbase_email
 core_version_requirement: ^8 || ^9
 dependencies:
   - swiftmailer:swiftmailer
