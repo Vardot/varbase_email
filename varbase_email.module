@@ -6,6 +6,7 @@
  */
 
 use Drupal\file\Entity\File;
+use Drupal\Core\StreamWrapper\StreamWrapperManager;
 
 /**
  * Implements hook_theme().
@@ -53,7 +54,7 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
     }
     elseif (theme_get_setting('email_logo_path', $theme_id)) {
       $uri = theme_get_setting('email_logo_path', $theme_id);
-      $scheme = \Drupal::service('file_system')->uriScheme($uri);
+      $scheme = StreamWrapperManager::getScheme($uri);
 
       if ($scheme) {
         $variables['logo'] = file_create_url($uri);
