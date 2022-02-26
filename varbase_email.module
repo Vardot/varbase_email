@@ -12,17 +12,19 @@ use Drupal\Core\StreamWrapper\StreamWrapperManager;
  * Implements hook_theme().
  */
 function varbase_email_theme($existing, $type, $theme, $path) {
-  $templates = $path . '/templates';
+  if (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
+    $templates = $path . '/templates';
 
-  $return['swiftmailer'] = [
-    'template' => 'varbase_emails',
-    'path' => $templates,
-    'variables' => [
-      'message' => [],
-    ],
-    'mail theme' => TRUE,
-  ];
-  return $return;
+    $return['swiftmailer'] = [
+      'template' => 'varbase_emails',
+      'path' => $templates,
+      'variables' => [
+        'message' => [],
+      ],
+      'mail theme' => TRUE,
+    ];
+    return $return;
+  }
 }
 
 /**
