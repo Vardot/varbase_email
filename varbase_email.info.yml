@@ -5,4 +5,5 @@ package: Varbase
 core_version_requirement: ^9
 dependencies: []
 install:
-  - symfony_mailer
+  - swiftmailer
+
