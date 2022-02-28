@@ -6,3 +6,4 @@ core_version_requirement: ^9
 dependencies: []
 install:
   - symfony_mailer
+  - symfony_mailer_bc

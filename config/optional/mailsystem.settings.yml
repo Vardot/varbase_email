@@ -1,4 +1,0 @@
-theme: current
-defaults:
-  sender: symfony_mailer
-  formatter: symfony_mailer
