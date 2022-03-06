@@ -1,0 +1,9 @@
+default.email-style.ltr:
+  css:
+    theme:
+      css/theme/email-style.theme.ltr.css: {}
+
+default.email-style.rtl:
+  css:
+    theme:
+      css/theme/email-style.theme.rtl.css: {}
