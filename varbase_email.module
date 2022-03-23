@@ -12,7 +12,21 @@ use Drupal\Core\StreamWrapper\StreamWrapperManager;
  * Implements hook_theme().
  */
 function varbase_email_theme($existing, $type, $theme, $path) {
-  if (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
+  if (\Drupal::moduleHandler()->moduleExists('symfony_mailer')) {
+    $templates = $path . '/templates';
+
+    $return['email'] = [
+      'template' => 'varbase_emails',
+      'path' => $templates,
+      'variables' => [
+        'email' => NULL,
+      ],
+      'mail theme' => TRUE,
+    ];
+
+    return $return;
+  }
+  elseif (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
     $templates = $path . '/templates';
 
     $return['swiftmailer'] = [
@@ -93,4 +107,70 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
     ];
     $variables['heading'] = t('Hi %display_name', $replace, $options);
   }
+}
+
+/**
+ * Prepares variables for varbase_emails.html.twig templates.
+ *
+ * Implements template_preprocess_email().
+ */
+function varbase_email_preprocess_email(&$variables) {
+
+  $email = $variables['email'];
+
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  $theme_id = \Drupal::config('system.theme')->get('default');
+  $site_config = \Drupal::config('system.site');
+
+  $request = \Drupal::request();
+  $host = $request->getSchemeAndHttpHost();
+
+  $variables['dir'] = $language->getDirection();
+
+  // Add the default email styling library with teh direction of LTR or RTL.
+  $email->addLibrary('varbase_email/default.email-style.' . $variables['dir']);
+
+  // Default we use the logo image.
+  if (theme_get_setting('email_logo_default', $theme_id)) {
+    $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+  }
+  else {
+    $fid = theme_get_setting('email_logo_upload', $theme_id);
+    if ($fid && is_array($fid) && count($fid)) {
+      $file = File::load($fid[0]);
+      if ($file) {
+        $url = $file->createFileUrl();
+        $variables['logo'] = $url;
+      }
+    }
+    elseif (theme_get_setting('email_logo_path', $theme_id)) {
+      $uri = theme_get_setting('email_logo_path', $theme_id);
+      $scheme = StreamWrapperManager::getScheme($uri);
+
+      if ($scheme) {
+        $variables['logo'] = file_create_url($uri);
+      }
+      else {
+        $variables['logo'] = $host . file_create_url($uri);
+      }
+    }
+    else {
+      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+    }
+  }
+
+  if ($site_config) {
+    $variables['site_link'] = TRUE;
+    $variables['site_name'] = $site_config->get('name');
+    if ($site_config->get('slogan')) {
+      $variables['site_slogan'] = $site_config->get('slogan');
+    }
+  }
+  else {
+    $variables['site_name'] = t('Varbase');
+    $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+  }
+
+  $variables['body'] = $email->getBody();
+  $variables = array_merge($variables, $email->getVariables());
 }

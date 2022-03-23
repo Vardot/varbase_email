@@ -1,0 +1,351 @@
+/* -------------------------------------
+    GLOBAL RESETS
+------------------------------------- */
+img {
+  max-width: 100%;
+  border: none;
+  -ms-interpolation-mode: bicubic;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+  background-color: #f6f6f6;
+  font-family: sans-serif;
+  font-size: 14px;
+  line-height: 1.4;
+  -webkit-font-smoothing: antialiased;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+table {
+  width: 100%;
+  direction: rtl;
+  border-collapse: separate;
+  mso-table-lspace: 0;
+  mso-table-rspace: 0;
+}
+table td {
+  vertical-align: top;
+  font-family: sans-serif;
+  font-size: 14px;
+}
+em {
+  font-weight: bold;
+  font-style: normal;
+}
+
+/* -------------------------------------
+    BODY & CONTAINER
+------------------------------------- */
+
+.body {
+  width: 100%;
+  background-color: #f6f6f6;
+}
+
+/* Set a max-width, and make it display as block so it will automatically stretch to that width, but will also shrink down on a phone or something */
+.container {
+  display: block;
+  width: 580px;
+  /* makes it centered */
+  max-width: 580px;
+  margin: 0 auto !important;
+  padding: 10px;
+}
+
+/* This should also be a block element, so that it will fill 100% of the .container */
+.content {
+  display: block;
+  box-sizing: border-box;
+  max-width: 580px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+/* -------------------------------------
+    HEADER, FOOTER, MAIN
+------------------------------------- */
+.header {
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-align: center;
+}
+
+.postheader {
+  padding-bottom: 30px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.main {
+  width: 100%;
+  border-radius: 3px;
+  background: #fff;
+  box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);
+}
+
+.wrapper {
+  box-sizing: border-box;
+  padding: 50px;
+}
+
+.footer {
+  clear: both;
+  width: 100%;
+  padding-top: 10px;
+  text-align: center;
+}
+.footer td,
+.footer p,
+.footer span,
+.footer a {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+}
+
+.content-block {
+  padding-top: 10px;
+}
+.content-block img {
+  margin: 10px 0;
+}
+/* -------------------------------------
+    TYPOGRAPHY
+------------------------------------- */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  margin-bottom: 30px;
+  color: #000;
+  font-family: sans-serif;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+h1 {
+  text-align: center;
+  text-transform: capitalize;
+  font-size: 35px;
+  font-weight: 300;
+}
+
+p,
+ul,
+ol {
+  margin: 0;
+  margin-bottom: 15px;
+  font-family: sans-serif;
+  font-size: 14px;
+  font-weight: normal;
+}
+p li,
+ul li,
+ol li {
+  margin-left: 5px;
+  list-style-position: inside;
+}
+
+ul {
+  padding-left: 1em;
+}
+
+a {
+  text-decoration: none;
+  color: #328ec7;
+  font-weight: bold;
+}
+
+a:hover,
+a:visited {
+  text-decoration: underline;
+}
+
+/* -------------------------------------
+    BUTTONS
+------------------------------------- */
+.btn {
+  box-sizing: border-box;
+  width: 100%;
+}
+.btn > tbody > tr > td {
+  padding-bottom: 15px;
+}
+.btn table {
+  width: auto;
+}
+.btn table td {
+  text-align: center;
+  border-radius: 5px;
+  background-color: #fff;
+}
+.btn a {
+  display: inline-block;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 12px 25px;
+  cursor: pointer;
+  text-decoration: none;
+  text-transform: capitalize;
+  color: #784288;
+  border: solid 1px #784288;
+  border-radius: 5px;
+  background-color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.btn-primary table td {
+  background-color: #784288;
+}
+
+.btn-primary a {
+  color: #fff;
+  border-color: #784288;
+  background-color: #784288;
+}
+
+/* -------------------------------------
+    OTHER STYLES THAT MIGHT BE USEFUL
+------------------------------------- */
+.last {
+  margin-bottom: 0;
+}
+
+.first {
+  margin-top: 0;
+}
+
+.align-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+.align-left {
+  text-align: left;
+}
+
+.clear {
+  clear: both;
+}
+
+.mt0 {
+  margin-top: 0;
+}
+
+.mb0 {
+  margin-bottom: 0;
+}
+
+.logo {
+  max-width: 160px;
+  max-height: 80px;
+}
+
+.preheader {
+  display: none;
+  visibility: hidden;
+  overflow: hidden;
+  width: 0;
+  max-width: 0;
+  height: 0;
+  max-height: 0;
+  opacity: 0;
+  color: transparent;
+  mso-hide: all;
+}
+
+.powered-by a {
+  text-decoration: none;
+}
+
+hr {
+  margin: 20px 0;
+  border: 0;
+  border-bottom: 1px solid #f6f6f6;
+}
+
+/* -------------------------------------
+    RESPONSIVE AND MOBILE FRIENDLY STYLES
+------------------------------------- */
+@media only screen and (max-width: 620px) {
+  table[class=body] h1 {
+    margin-bottom: 10px !important;
+    font-size: 28px !important;
+  }
+  table[class=body] p,
+  table[class=body] ul,
+  table[class=body] ol,
+  table[class=body] td,
+  table[class=body] span,
+  table[class=body] a {
+    font-size: 16px !important;
+  }
+  table[class=body] .wrapper,
+  table[class=body] .article {
+    padding: 10px !important;
+  }
+  table[class=body] .content {
+    padding: 0 !important;
+  }
+  table[class=body] .container {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  table[class=body] .main {
+    border-right-width: 0 !important;
+    border-left-width: 0 !important;
+    border-radius: 0 !important;
+  }
+  table[class=body] .btn table {
+    width: 100% !important;
+  }
+  table[class=body] .btn a {
+    width: 100% !important;
+  }
+  table[class=body] .img-responsive {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
+/* -------------------------------------
+    PRESERVE THESE STYLES IN THE HEAD
+------------------------------------- */
+@media all {
+  .ExternalClass {
+    width: 100%;
+  }
+  .ExternalClass,
+  .ExternalClass p,
+  .ExternalClass span,
+  .ExternalClass font,
+  .ExternalClass td,
+  .ExternalClass div {
+    line-height: 100%;
+  }
+  .apple-link a {
+    text-decoration: none !important;
+    color: inherit !important;
+    font-family: inherit !important;
+    font-size: inherit !important;
+    font-weight: inherit !important;
+    line-height: inherit !important;
+  }
+  .btn-primary table td:hover {
+    background-color: #34495e !important;
+  }
+  .btn-primary a:hover {
+    border-color: #34495e !important;
+    background-color: #34495e !important;
+  }
+}

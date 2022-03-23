@@ -1,31 +1,23 @@
 {#
 /**
  * @file
- * The default template file for e-mails.
+ * Default theme implementation for Symfony Email.
+ * With backward compatibility with swiftmailer if it was the default.
+ * only the the step of migration.
+ * Switch to use "drupal/varbase_email": "~9.1.0" to only use Symfony Mailer.
  *
- * Available variables:
- * - subject: The subject.
- * - body: The message content.
- * - message: The $message array created and used in the mail building
- *   procedure. Its content varies between cases, but typically contains at
- *   least the following elements:
- *   - id: The message identifier.
- *   - module: The module that handles the building of the message.
- *   - key: The key of the message.
- *   - to: The recipient email address.
- *   - from: The email address of the sender.
- *   - langcode: The langcode to use to compose the e-mail.
- *   - params: The message parameters.
- *
- * This template may be overriden by module and/or mail key, using any of the
- * following template names:
- * - swiftmailer.html.twig: global, used by default.
- * - swiftmailer--mymodule.html.twig: only emails sent by the module "mymodule".
- * - swiftmailer--mymodule--test.html.twig: only emails by the module
- *   "mymodule" with key "test".
+ * Variables:
+ * - body: Email body content.
+ * - heading: The heading title of the email.
+ * - logo: Vartheme Email logo.
+ * - site_name: Site name.
+ * - site_slogan: Slogan of the site.
  *
  * @see template_preprocess()
- * @see template_preprocess_swiftmailer()
+ * @see template_preprocess_email() when Symfony Mailer module is enabled.
+ * @see template_preprocess_swiftmailer() when Swiftmailer module is enable.
+ * Swiftmailer Variables:
+ * - dir: LTR or RTL for the direction of the default languge.
  *
  * @ingroup themeable
  */
@@ -36,6 +28,16 @@
     <meta name="viewport" content="width=device-width" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>{{ heading }}</title>
+
+    {#
+      /**
+       * - Add the style css tag only when swiftmailer is the default sender .
+       *    dir: LTR or RTL for the direction of the default languge.
+       * - Symfony Mailer is using $email->addLibrary to Add the default email
+       *    styling library with teh direction of LTR or RTL.
+       */ 
+    #}
+    {% if dir %}
     <style>
         /* -------------------------------------
             GLOBAL RESETS
@@ -389,6 +391,7 @@
         }
 
     </style>
+    {% endif %}
 </head>
 <body class="">
 
@@ -411,7 +414,7 @@
                     {{ heading }}
                 </div>
 
-                <table class="main" style="background: #fff;border-radius: 3px;width: 100%;box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.24);">
+                <table class="main" style="width: 100%; border-radius: 3px; background: #fff; box-shadow: 0 -1px 0 #e0e0e0, 0 0 2px rgba(0, 0, 0, 0.12), 0 2px 4px rgba(0, 0, 0, 0.24);">
 
                     <!-- START MAIN CONTENT AREA -->
                     <tr>
