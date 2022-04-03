@@ -41,7 +41,6 @@ function varbase_email_theme($existing, $type, $theme, $path) {
   }
 }
 
-
 /**
  * Prepares variables for varbase_emails.html.twig templates.
  *
