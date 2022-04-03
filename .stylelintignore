@@ -1,10 +1,11 @@
 node_modules/**/*.css
 vendor/**/*.css
-**/*.min.css"
+**/*.min.css
 scss/*
 images/*
 fonts/*
 js/*
+src/*
 tests/*
 config/**/*.yml
 *.yml
@@ -13,3 +14,14 @@ config/**/*.yml
 *.svg
 *.ico
 *.json
+*.make
+*.md
+*.po
+*.xml
+*.js
+*.php
+*.twig
+*.install
+*.module
+*.lock
+package
