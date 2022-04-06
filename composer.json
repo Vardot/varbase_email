@@ -31,6 +31,7 @@
     "oomphinc/composer-installers-extender": "~1.0 || ~2.0",
     "cweagans/composer-patches": "~1.0",
     "drupal/core": "~9.0",
+    "vardot/module-installer-factory": "~1.0",
     "drupal/symfony_mailer": "~1.0",
     "drupal/swiftmailer": "~2.0"
   },
