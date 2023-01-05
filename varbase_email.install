@@ -5,15 +5,36 @@
  * Install, update and uninstall functions for the Varbase email module.
  */
 
+use Vardot\Entity\EntityDefinitionUpdateManager;
 use Vardot\Installer\ModuleInstallerFactory;
+use Drupal\symfony_mailer\Controller\SymfonyMailerController;
 
 /**
  * Implements hook_install().
  */
 function varbase_email_install() {
 
-  // Processer for install: in varbase_email.info.yml file.
-  // ---------------------------------------------------------------------------.
+  // Processor for install: in varbase_email.info.yml file using ModuleInstallerFactory.
+  // --------------------------------------------------------------------------.
   ModuleInstallerFactory::installList('varbase_email');
+
+  // Install optional configs.
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^symfony_mailer.*$/i');
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^.*(settings.yml)$/i');
+
+  // --------------------------------------------------------------------------.
+  // Entity updates to clear up any mismatched entity and/or field definitions
+  // And Fix changes were detected in the entity type and field definitions.
+  \Drupal::classResolver()
+    ->getInstanceFromDefinition(EntityDefinitionUpdateManager::class)
+    ->applyUpdates();
+
+  // Import All Symfony Mailer User email settings (user),
+  // and Update notification addresses (update).
+  if (\Drupal::service('plugin.manager.email_builder')->importRequired()) {
+    \Drupal::classResolver()
+      ->getInstanceFromDefinition(SymfonyMailerController::class)
+      ->importAll();
+  }
 
 }
