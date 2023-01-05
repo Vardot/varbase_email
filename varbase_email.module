@@ -159,7 +159,7 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
     }
     else {
       $variables['site_name'] = t('Varbase');
-      $variables['site_slogan'] = '"' . t('The Ultimate Drupal 9 CMS Starter Kit') . '"';
+      $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
     }
 
     if ($user = user_load_by_mail($variables['message']['to'])) {
