@@ -14,7 +14,6 @@ use Drupal\symfony_mailer\Controller\SymfonyMailerController;
 function varbase_email_install() {
 
   // Processor for install: in varbase_email.info.yml file using ModuleInstallerFactory.
-  // --------------------------------------------------------------------------.
   ModuleInstallerFactory::installList('varbase_email');
 
   // Import All Symfony Mailer User email settings (user),
@@ -24,6 +23,9 @@ function varbase_email_install() {
       ->getInstanceFromDefinition(SymfonyMailerController::class)
       ->importAll();
   }
+
+  // Add permissions.
+  ModuleInstallerFactory::addPermissions('varbase_email');
 
 }
 
