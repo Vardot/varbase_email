@@ -16,6 +16,10 @@ function varbase_email_install() {
   // Processor for install: in varbase_email.info.yml file using ModuleInstallerFactory.
   ModuleInstallerFactory::installList('varbase_email');
 
+  // Install optional configs.
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^.*(settings.yml)$/i');
+  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^symfony_mailer.*\\.(yml)$/i');
+
   // Import All Symfony Mailer User email settings (user),
   // and Update notification addresses (update).
   if (\Drupal::service('plugin.manager.email_builder')->importRequired()) {
