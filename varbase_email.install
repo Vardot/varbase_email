@@ -50,7 +50,7 @@ function varbase_email_update_90001() {
  *
  * And remove enabling Symfony Mailer Override Backward Compatibility sub module.
  */
-function varbase_email_update_90002() {
+function varbase_email_update_100001() {
 
   // Only if the symfony_mailer_bc was enabled.
   if (\Drupal::moduleHandler()->moduleExists('symfony_mailer_bc')) {
