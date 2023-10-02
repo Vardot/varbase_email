@@ -78,10 +78,10 @@ function varbase_email_preprocess_email(&$variables) {
         $scheme = StreamWrapperManager::getScheme($uri);
 
         if ($scheme) {
-          $variables['logo'] = file_create_url($uri);
+          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
         else {
-          $variables['logo'] = $host . file_create_url($uri);
+          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
       }
       else {
@@ -139,10 +139,10 @@ function varbase_email_preprocess_swiftmailer(&$variables) {
         $scheme = StreamWrapperManager::getScheme($uri);
 
         if ($scheme) {
-          $variables['logo'] = file_create_url($uri);
+          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
         else {
-          $variables['logo'] = $host . file_create_url($uri);
+          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
       }
       else {
