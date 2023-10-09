@@ -12,9 +12,12 @@ use Vardot\Installer\ModuleInstallerFactory;
  */
 function varbase_email_install() {
 
-  // Processor for install: in varbase_email.info.yml file using Module Installer Factory.
+  // Processor for install: in varbase_email.info.yml file.
   // --------------------------------------------------------------------------.
   ModuleInstallerFactory::installList('varbase_email');
+
+  // Add permissions.
+  ModuleInstallerFactory::addPermissions('varbase_email');
 
 }
 
