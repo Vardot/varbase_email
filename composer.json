@@ -33,7 +33,7 @@
     "drupal/core": "~10.1.0",
     "vardot/entity-definition-update-manager": "~1.0",
     "vardot/module-installer-factory": "~1.0",
-    "drupal/symfony_mailer": "~1.3.0"
+    "drupal/symfony_mailer": "~1.4.0"
   },
   "extra": {
     "enable-patching": true,
