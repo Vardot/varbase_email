@@ -13,7 +13,7 @@ use Drupal\symfony_mailer\Controller\SymfonyMailerController;
  */
 function varbase_email_install() {
 
-  // Processor for install: in varbase_email.info.yml file using ModuleInstallerFactory.
+  // Processor for install: in varbase_email.info.yml file.
   ModuleInstallerFactory::installList('varbase_email');
 
   // Install optional configs.
@@ -33,31 +33,5 @@ function varbase_email_install() {
 
 }
 
-/**
- * Issue #3272285: Switch to use the Module Installer Factory.
- *
- * In the Varbase Email module.
- */
-function varbase_email_update_90001() {
-
-  // Only if the Swift Mailer and the Mail System modules were enabled.
-  if (\Drupal::moduleHandler()->moduleExists('swiftmailer')
-    && \Drupal::moduleHandler()->moduleExists('mailsystem')) {
-    // Set the weight of the module after installation of list of modules.
-    // To make sure that any hook or event subscriber workers after all used modules.
-    ModuleInstallerFactory::setModuleWeightAfterInstallation('varbase_email', '', ['swiftmailer', 'mailsystem']);
-  }
-}
-
-/**
- * Issue #3364734: Update Drupal Symfony Mailer from ~2.0 to ~2.3.0.
- *
- * And remove enabling Symfony Mailer Override Backward Compatibility sub module.
- */
-function varbase_email_update_100001() {
-
-  // Only if the symfony_mailer_bc was enabled.
-  if (\Drupal::moduleHandler()->moduleExists('symfony_mailer_bc')) {
-    \Drupal::service('module_installer')->uninstall(['symfony_mailer_bc'], FALSE);
-  }
-}
+// Load include all updates and apply them.
+\Drupal::moduleHandler()->loadInclude('varbase_api', 'inc', 'include/updates/all');
