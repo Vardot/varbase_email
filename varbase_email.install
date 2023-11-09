@@ -34,4 +34,4 @@ function varbase_email_install() {
 }
 
 // Load include all updates and apply them.
-\Drupal::moduleHandler()->loadInclude('varbase_api', 'inc', 'include/updates/all');
+\Drupal::moduleHandler()->loadInclude('varbase_email', 'inc', 'include/updates/all');
