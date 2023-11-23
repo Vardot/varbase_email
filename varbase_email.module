@@ -12,7 +12,6 @@ use Drupal\Core\StreamWrapper\StreamWrapperManager;
  * Implements hook_theme().
  */
 function varbase_email_theme($existing, $type, $theme, $path) {
-
   if (\Drupal::moduleHandler()->moduleExists('symfony_mailer')) {
     $templates = $path . '/templates';
 
@@ -27,6 +26,19 @@ function varbase_email_theme($existing, $type, $theme, $path) {
 
     return $return;
   }
+  elseif (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
+    $templates = $path . '/templates';
+
+    $return['swiftmailer'] = [
+      'template' => 'varbase_emails',
+      'path' => $templates,
+      'variables' => [
+        'message' => [],
+      ],
+      'mail theme' => TRUE,
+    ];
+    return $return;
+  }
 }
 
 /**
@@ -35,7 +47,6 @@ function varbase_email_theme($existing, $type, $theme, $path) {
  * Implements template_preprocess_email().
  */
 function varbase_email_preprocess_email(&$variables) {
-
   if (\Drupal::moduleHandler()->moduleExists('symfony_mailer')) {
     $email = $variables['email'];
 
@@ -67,10 +78,10 @@ function varbase_email_preprocess_email(&$variables) {
         $scheme = StreamWrapperManager::getScheme($uri);
 
         if ($scheme) {
-          $variables['logo'] = file_create_url($uri);
+          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
         else {
-          $variables['logo'] = $host . file_create_url($uri);
+          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
         }
       }
       else {
@@ -92,5 +103,75 @@ function varbase_email_preprocess_email(&$variables) {
 
     $variables['body'] = $email->getBody();
     $variables = array_merge($variables, $email->getVariables());
+  }
+}
+
+/**
+ * Prepares variables for varbase_emails.html.twig templates.
+ *
+ * Implements hook_preprocess_HOOK() for field templates.
+ */
+function varbase_email_preprocess_swiftmailer(&$variables) {
+  if (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
+    $language = \Drupal::languageManager()->getCurrentLanguage();
+    $theme_id = \Drupal::config('system.theme')->get('default');
+    $site_config = \Drupal::config('system.site');
+
+    $request = \Drupal::request();
+    $host = $request->getSchemeAndHttpHost();
+
+    $variables['dir'] = $language->getDirection();
+    // Default we use the logo image.
+    if (theme_get_setting('email_logo_default', $theme_id)) {
+      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+    }
+    else {
+      $fid = theme_get_setting('email_logo_upload', $theme_id);
+      if ($fid && is_array($fid) && count($fid)) {
+        $file = File::load($fid[0]);
+        if ($file) {
+          $url = $file->createFileUrl();
+          $variables['logo'] = $url;
+        }
+      }
+      elseif (theme_get_setting('email_logo_path', $theme_id)) {
+        $uri = theme_get_setting('email_logo_path', $theme_id);
+        $scheme = StreamWrapperManager::getScheme($uri);
+
+        if ($scheme) {
+          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+        }
+        else {
+          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
+        }
+      }
+      else {
+        $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+      }
+    }
+
+    if ($site_config) {
+      $variables['site_link'] = TRUE;
+      $variables['site_name'] = $site_config->get('name');
+      if ($site_config->get('slogan')) {
+        $variables['site_slogan'] = $site_config->get('slogan');
+      }
+    }
+    else {
+      $variables['site_name'] = t('Varbase');
+      $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+    }
+
+    if ($user = user_load_by_mail($variables['message']['to'])) {
+      $message = $variables['message'];
+      $options = [
+        'langcode' => $message['langcode'],
+      ];
+
+      $replace = [
+        '%display_name' => $user->getDisplayName(),
+      ];
+      $variables['heading'] = t('Hi %display_name', $replace, $options);
+    }
   }
 }

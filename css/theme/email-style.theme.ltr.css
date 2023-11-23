@@ -22,6 +22,7 @@ body {
 
 table {
   width: 100%;
+  min-width: 100%;
   direction: ltr;
   border-collapse: separate;
   mso-table-lspace: 0;
