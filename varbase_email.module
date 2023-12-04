@@ -47,63 +47,61 @@ function varbase_email_theme($existing, $type, $theme, $path) {
  * Implements template_preprocess_email().
  */
 function varbase_email_preprocess_email(&$variables) {
-  if (\Drupal::moduleHandler()->moduleExists('symfony_mailer')) {
-    $email = $variables['email'];
+  $email = $variables['email'];
 
-    $language = \Drupal::languageManager()->getCurrentLanguage();
-    $theme_id = \Drupal::config('system.theme')->get('default');
-    $site_config = \Drupal::config('system.site');
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  $theme_id = \Drupal::config('system.theme')->get('default');
+  $site_config = \Drupal::config('system.site');
 
-    $request = \Drupal::request();
-    $host = $request->getSchemeAndHttpHost();
+  $request = \Drupal::request();
+  $host = $request->getSchemeAndHttpHost();
 
-    // Add the default email styling library with teh direction of LTR or RTL.
-    $email->addLibrary('varbase_email/default.email-style.' . $language->getDirection());
+  // Add the default email styling library with teh direction of LTR or RTL.
+  $email->addLibrary('varbase_email/default.email-style.' . $language->getDirection());
 
-    // Default we use the logo image.
-    if (theme_get_setting('email_logo_default', $theme_id)) {
-      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
-    }
-    else {
-      $fid = theme_get_setting('email_logo_upload', $theme_id);
-      if ($fid && is_array($fid) && count($fid)) {
-        $file = File::load($fid[0]);
-        if ($file) {
-          $url = $file->createFileUrl();
-          $variables['logo'] = $url;
-        }
+  // Default we use the logo image.
+  if (theme_get_setting('email_logo_default', $theme_id)) {
+    $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+  }
+  else {
+    $fid = theme_get_setting('email_logo_upload', $theme_id);
+    if ($fid && is_array($fid) && count($fid)) {
+      $file = File::load($fid[0]);
+      if ($file) {
+        $url = $file->createFileUrl();
+        $variables['logo'] = $url;
       }
-      elseif (theme_get_setting('email_logo_path', $theme_id)) {
-        $uri = theme_get_setting('email_logo_path', $theme_id);
-        $scheme = StreamWrapperManager::getScheme($uri);
+    }
+    elseif (theme_get_setting('email_logo_path', $theme_id)) {
+      $uri = theme_get_setting('email_logo_path', $theme_id);
+      $scheme = StreamWrapperManager::getScheme($uri);
 
-        if ($scheme) {
-          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
-        }
-        else {
-          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
-        }
+      if ($scheme) {
+        $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
       }
       else {
-        $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
-      }
-    }
-
-    if ($site_config) {
-      $variables['site_link'] = TRUE;
-      $variables['site_name'] = $site_config->get('name');
-      if ($site_config->get('slogan')) {
-        $variables['site_slogan'] = $site_config->get('slogan');
+        $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
       }
     }
     else {
-      $variables['site_name'] = t('Varbase');
-      $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
     }
-
-    $variables['body'] = $email->getBody();
-    $variables = array_merge($variables, $email->getVariables());
   }
+
+  if ($site_config) {
+    $variables['site_link'] = TRUE;
+    $variables['site_name'] = $site_config->get('name');
+    if ($site_config->get('slogan')) {
+      $variables['site_slogan'] = $site_config->get('slogan');
+    }
+  }
+  else {
+    $variables['site_name'] = t('Varbase');
+    $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+  }
+
+  $variables['body'] = $email->getBody();
+  $variables = array_merge($variables, $email->getVariables());
 }
 
 /**
@@ -112,66 +110,64 @@ function varbase_email_preprocess_email(&$variables) {
  * Implements hook_preprocess_HOOK() for field templates.
  */
 function varbase_email_preprocess_swiftmailer(&$variables) {
-  if (\Drupal::moduleHandler()->moduleExists('swiftmailer')) {
-    $language = \Drupal::languageManager()->getCurrentLanguage();
-    $theme_id = \Drupal::config('system.theme')->get('default');
-    $site_config = \Drupal::config('system.site');
+  $language = \Drupal::languageManager()->getCurrentLanguage();
+  $theme_id = \Drupal::config('system.theme')->get('default');
+  $site_config = \Drupal::config('system.site');
 
-    $request = \Drupal::request();
-    $host = $request->getSchemeAndHttpHost();
+  $request = \Drupal::request();
+  $host = $request->getSchemeAndHttpHost();
 
-    $variables['dir'] = $language->getDirection();
-    // Default we use the logo image.
-    if (theme_get_setting('email_logo_default', $theme_id)) {
-      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
-    }
-    else {
-      $fid = theme_get_setting('email_logo_upload', $theme_id);
-      if ($fid && is_array($fid) && count($fid)) {
-        $file = File::load($fid[0]);
-        if ($file) {
-          $url = $file->createFileUrl();
-          $variables['logo'] = $url;
-        }
+  $variables['dir'] = $language->getDirection();
+  // Default we use the logo image.
+  if (theme_get_setting('email_logo_default', $theme_id)) {
+    $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
+  }
+  else {
+    $fid = theme_get_setting('email_logo_upload', $theme_id);
+    if ($fid && is_array($fid) && count($fid)) {
+      $file = File::load($fid[0]);
+      if ($file) {
+        $url = $file->createFileUrl();
+        $variables['logo'] = $url;
       }
-      elseif (theme_get_setting('email_logo_path', $theme_id)) {
-        $uri = theme_get_setting('email_logo_path', $theme_id);
-        $scheme = StreamWrapperManager::getScheme($uri);
+    }
+    elseif (theme_get_setting('email_logo_path', $theme_id)) {
+      $uri = theme_get_setting('email_logo_path', $theme_id);
+      $scheme = StreamWrapperManager::getScheme($uri);
 
-        if ($scheme) {
-          $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
-        }
-        else {
-          $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
-        }
+      if ($scheme) {
+        $variables['logo'] = \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
       }
       else {
-        $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
-      }
-    }
-
-    if ($site_config) {
-      $variables['site_link'] = TRUE;
-      $variables['site_name'] = $site_config->get('name');
-      if ($site_config->get('slogan')) {
-        $variables['site_slogan'] = $site_config->get('slogan');
+        $variables['logo'] = $host . \Drupal::service('file_url_generator')->generateAbsoluteString($uri);
       }
     }
     else {
-      $variables['site_name'] = t('Varbase');
-      $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+      $variables['logo'] = $host . theme_get_setting('logo.url', $theme_id);
     }
+  }
 
-    if ($user = user_load_by_mail($variables['message']['to'])) {
-      $message = $variables['message'];
-      $options = [
-        'langcode' => $message['langcode'],
-      ];
-
-      $replace = [
-        '%display_name' => $user->getDisplayName(),
-      ];
-      $variables['heading'] = t('Hi %display_name', $replace, $options);
+  if ($site_config) {
+    $variables['site_link'] = TRUE;
+    $variables['site_name'] = $site_config->get('name');
+    if ($site_config->get('slogan')) {
+      $variables['site_slogan'] = $site_config->get('slogan');
     }
+  }
+  else {
+    $variables['site_name'] = t('Varbase');
+    $variables['site_slogan'] = '"' . t('The Ultimate Drupal CMS Starter Kit') . '"';
+  }
+
+  if ($user = user_load_by_mail($variables['message']['to'])) {
+    $message = $variables['message'];
+    $options = [
+      'langcode' => $message['langcode'],
+    ];
+
+    $replace = [
+      '%display_name' => $user->getDisplayName(),
+    ];
+    $variables['heading'] = t('Hi %display_name', $replace, $options);
   }
 }
