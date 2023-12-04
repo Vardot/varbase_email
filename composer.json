@@ -27,16 +27,17 @@
     }
   },
   "require": {
-    "composer/installers": "~2.0",
-    "oomphinc/composer-installers-extender": "~2.0",
-    "cweagans/composer-patches": "~1.0",
+    "composer/installers": "~2",
+    "oomphinc/composer-installers-extender": "~2",
+    "cweagans/composer-patches": "~1",
     "drupal/core": "~9",
-    "vardot/module-installer-factory": "~1.0",
-    "drupal/symfony_mailer": "~1.0",
-    "drupal/swiftmailer": "~2.0"
+    "vardot/module-installer-factory": "~1",
+    "drupal/symfony_mailer": "~1",
+    "drupal/swiftmailer": "~2"
   },
   "extra": {
     "enable-patching": true,
-    "composer-exit-on-patch-failure": true
+    "composer-exit-on-patch-failure": true,
+    "patches": { }
   }
 }

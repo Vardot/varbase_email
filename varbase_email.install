@@ -7,6 +7,10 @@
 
 use Vardot\Installer\ModuleInstallerFactory;
 
+// Include all helpers and updates.
+include_once __DIR__ . '/includes/helpers.inc';
+include_once __DIR__ . '/includes/updates.inc';
+
 /**
  * Implements hook_install().
  */
@@ -20,6 +24,3 @@ function varbase_email_install() {
   ModuleInstallerFactory::addPermissions('varbase_email');
 
 }
-
-// Load include all updates and apply them.
-\Drupal::moduleHandler()->loadInclude('varbase_email', 'inc', 'include/updates/all');
