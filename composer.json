@@ -32,8 +32,7 @@
     "cweagans/composer-patches": "~1",
     "drupal/core": "~10",
     "vardot/module-installer-factory": "~1",
-    "drupal/symfony_mailer": "~1",
-    "drupal/swiftmailer": "~2"
+    "drupal/symfony_mailer": "~1"
   },
   "extra": {
     "enable-patching": true,
