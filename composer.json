@@ -25,6 +25,6 @@
   "require": {
     "drupal/core": "~10.5.0 || ~11.2.0",
     "vardot/varbase-patches": "~9",
-    "drupal/symfony_mailer": "~1"
+    "drupal/symfony_mailer": "~1 || ~2"
   }
 }
