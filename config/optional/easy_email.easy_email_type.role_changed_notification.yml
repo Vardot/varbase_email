@@ -8,8 +8,8 @@ recipient:
   - '[admin_user:mail]'
 cc: {  }
 bcc: {  }
-fromName: ''
-fromAddress: ''
+fromName: '[site:name]'
+fromAddress: '[site:mail]'
 replyToAddress: ''
 subject: 'Notice: User Role Modified - [updated_user:display-name] on [site:name]'
 inboxPreview: ''
