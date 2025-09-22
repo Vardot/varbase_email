@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies: {  }
+id: login_notification
+label: 'Login Notification'
+key: ''
+recipient:
+  - '[user:mail]'
+cc: {  }
+bcc: {  }
+fromName: '[site:name]'
+fromAddress: '[site:mail]'
+replyToAddress: ''
+subject: 'A new device has logged in to your [site:name] account'
+inboxPreview: ''
+bodyHtml:
+  value: "<p>Hi [user:account-name],</p><p>It looks like you signed into your account from a new device.</p>\r\n<p>Login Time: [user:last-login:custom:Y-m-d H:i:s T]<br>\r\nIP Address: [user:ip-address][current-user:ip-address]</p>\r\n<p>If this isn't you, let us know.</p>\r\n<p><a href=\"[site:url]user/[user:uid]/edit\">Check Your Profile</a></p>"
+  format: email_html
+bodyPlain: ''
+generateBodyPlain: true
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

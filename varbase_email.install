@@ -16,8 +16,7 @@ include_once __DIR__ . '/includes/updates.inc';
  */
 function varbase_email_install() {
 
-  // Install optional configs.
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^.*(settings.yml)$/i');
-  ModuleInstallerFactory::importConfigsFromScanedDirectory('varbase_email', '/^symfony_mailer.*\\.(yml)$/i');
+  $default_recipe = Recipe::createFromDirectory(__DIR__ . '/recipes/default');
+  RecipeRunner::processRecipe($default_recipe);
 
 }

@@ -3,5 +3,4 @@ type: module
 description: Adds email template for Varbase emails
 package: Varbase
 core_version_requirement: ~11.2.0
-dependencies:
-  - symfony_mailer:symfony_mailer
+dependencies: {  }
