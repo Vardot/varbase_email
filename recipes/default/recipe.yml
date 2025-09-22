@@ -8,8 +8,3 @@ config:
   import:
     symfony_mailer: "*"
     easy_email: "*"
-  actions:
-    user.role.site_admin:
-      grantPermissions:
-        - 'administer shortcuts'
-        - 'customize shortcut links'
