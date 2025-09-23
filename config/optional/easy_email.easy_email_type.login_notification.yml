@@ -5,7 +5,7 @@ id: login_notification
 label: 'Login Notification'
 key: ''
 recipient:
-  - '[user:mail]'
+  - '[logged_user:mail]'
 cc: {  }
 bcc: {  }
 fromName: '[site:name]'
@@ -14,7 +14,7 @@ replyToAddress: ''
 subject: 'A new device has logged in to your [site:name] account'
 inboxPreview: ''
 bodyHtml:
-  value: "<p>Hi [user:account-name],</p><p>It looks like you signed into your account from a new device.</p>\r\n<p>Login Time: [user:last-login:custom:Y-m-d H:i:s T]<br>\r\nIP Address: [user:ip-address][current-user:ip-address]</p>\r\n<p>If this isn't you, let us know.</p>\r\n<p><a href=\"[site:url]user/[user:uid]/edit\">Check Your Profile</a></p>"
+  value: "<p>Hi [logged_user:account-name],</p><p>It looks like you signed into your account from a new device.</p>\r\n<p>Login Time: [logged_user:last-login:custom:Y-m-d H:i:s T]<br>\r\nIP Address: [logged_user_id_address]</p>\r\n<p>If this isn't you, let us know.</p>\r\n<p><a href=\"[site:url]user/[logged_user:uid]/edit\">Check Your Profile</a></p>"
   format: email_html
 bodyPlain: ''
 generateBodyPlain: true
