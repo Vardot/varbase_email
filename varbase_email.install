@@ -4,8 +4,8 @@
  * @file
  * Install, update and uninstall functions for the Varbase Email module.
  */
-
-use Vardot\Installer\ModuleInstallerFactory;
+use Drupal\Core\Recipe\Recipe;
+use Drupal\Core\Recipe\RecipeRunner;
 
 // Include all helpers and updates.
 include_once __DIR__ . '/includes/helpers.inc';
