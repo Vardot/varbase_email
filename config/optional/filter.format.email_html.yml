@@ -7,50 +7,16 @@ dependencies:
     - core.entity_view_mode.media.original
     - core.entity_view_mode.media.small
   module:
-    - ace_editor
-    - blazy
     - ckeditor_media_embed
     - entity_embed
     - linkit
     - media
     - pathologic
-    - slick
     - token_filter
-    - varbase_editor
 name: 'Email HTML'
 format: email_html
 weight: 10
 filters:
-  ace_filter:
-    id: ace_filter
-    provider: ace_editor
-    status: false
-    weight: 0
-    settings:
-      theme: cobalt
-      syntax: html
-      height: 500px
-      width: 700px
-      font_size: 12pt
-      line_numbers: true
-      show_invisibles: false
-      print_margins: true
-      use_wrap_mode: true
-  blazy_filter:
-    id: blazy_filter
-    provider: blazy
-    status: false
-    weight: 3
-    settings:
-      media_switch: ''
-      hybrid_style: ''
-      box_style: ''
-      box_media_style: ''
-      box_caption: ''
-      filter_tags:
-        img: img
-        iframe: iframe
-      use_data_uri: '0'
   entity_embed:
     id: entity_embed
     provider: entity_embed
@@ -146,50 +112,6 @@ filters:
         image: image
         remote_video: remote_video
         video: video
-  slick_filter:
-    id: slick_filter
-    provider: slick
-    status: false
-    weight: 4
-    settings:
-      caption:
-        alt: '0'
-        title: '0'
-      optionset: default
-      layout: ''
-      admin_uri: '/admin/config/content/formats/manage/email_html?destination=/admin/config/content/formats&ajax_form=1&_wrapper_format=drupal_ajax&_wrapper_format=drupal_ajax'
-      background: false
-      box_caption: ''
-      box_caption_custom: ''
-      box_media_style: ''
-      loading: ''
-      box_style: ''
-      image_style: ''
-      media_switch: ''
-      ratio: ''
-      thumbnail_style: ''
-      grid: ''
-      grid_medium: ''
-      grid_small: ''
-      style: ''
-      skin: ''
-      overridables:
-        arrows: '0'
-        autoplay: '0'
-        dots: '0'
-        draggable: '0'
-        infinite: '0'
-        mouseWheel: '0'
-        randomize: '0'
-        variableWidth: '0'
-      optionset_thumbnail: ''
-      skin_thumbnail: ''
-      thumbnail_caption: ''
-      thumbnail_effect: ''
-      thumbnail_position: ''
-      override: false
-      preserve_keys: false
-      visible_items: null
   token_filter:
     id: token_filter
     provider: token_filter
