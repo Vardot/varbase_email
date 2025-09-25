@@ -4,7 +4,3 @@ type: install
 install:
   - symfony_mailer
   - easy_email
-config:
-  import:
-    symfony_mailer: "*"
-    easy_email: "*"

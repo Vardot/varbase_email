@@ -1,0 +1,30 @@
+uuid: 3fcf7976-1e5c-452c-b6cf-44ca5856a140
+langcode: en
+status: true
+dependencies: {  }
+id: role_changed_notification
+label: 'Role Changed Notification'
+key: ''
+recipient:
+  - '[admin_user:mail]'
+cc: {  }
+bcc: {  }
+fromName: ''
+fromAddress: ''
+replyToAddress: ''
+subject: 'Notice: User Role Modified - [updated_user:display-name] on [site:name]'
+inboxPreview: ''
+bodyHtml:
+  value: '<p><strong>User Role Modification Detected</strong></p><p>A user''s roles have been modified on <a href="[site:url]">[site:name]</a>.</p><h4>Role Change Details for [updated_user:display-name]:</h4><p>Previous roles: [user_original_roles]<br>New roles: [user_new_roles]</p><h4>Quick Actions:</h4><ul><li><a href="[site:url]user/[updated_user:uid]/edit">Edit User</a></li><li><a href="[site:url]user/[updated_user:uid]">View Profile</a></li><li><a href="[site:url]admin/people">Manage Users</a></li></ul><p>This automated security alert is sent to all site administrators.</p><p>[site:name] Security System</p>'
+  format: email_html
+bodyPlain: ''
+generateBodyPlain: true
+attachment: {  }
+saveAttachment: false
+attachmentScheme: public
+attachmentDirectory: ''
+saveEmail: true
+allowSavingEmail: true
+purgeEmails: false
+purgeInterval: null
+purgePeriod: null

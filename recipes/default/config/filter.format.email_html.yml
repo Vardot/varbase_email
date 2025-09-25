@@ -73,12 +73,6 @@ filters:
         protocol_style: full
         local_paths: ''
         keep_language_prefix: true
-  filter_resize_media:
-    id: filter_resize_media
-    provider: varbase_editor
-    status: true
-    weight: 90
-    settings: {  }
   filter_url:
     id: filter_url
     provider: filter

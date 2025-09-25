@@ -1,3 +1,4 @@
+uuid: dfac2dce-e489-4081-a198-d903cf0c4671
 langcode: en
 status: true
 dependencies: {  }
@@ -14,7 +15,7 @@ replyToAddress: ''
 subject: 'A new device has logged in to your [site:name] account'
 inboxPreview: ''
 bodyHtml:
-  value: "<p>Hi [logged_user:account-name],</p><p>It looks like you signed into your account from a new device.</p>\r\n<p>Login Time: [logged_user:last-login:custom:Y-m-d H:i:s T]<br>\r\nIP Address: [logged_user_id_address]</p>\r\n<p>If this isn't you, let us know.</p>\r\n<p><a href=\"[site:url]user/[logged_user:uid]/edit\">Check Your Profile</a></p>"
+  value: '<p>Hi [logged_user:account-name],</p><p>It looks like you signed into your account.</p><p>Login Time: [logged_user:last-login:custom:Y-m-d H:i:s T]<br>IP Address: [logged_user_ip_address]</p><p>If this isn''t you, let us know.</p><p><a href="[site:url]user/[logged_user:uid]/edit">Check Your Profile</a></p>'
   format: email_html
 bodyPlain: ''
 generateBodyPlain: true
