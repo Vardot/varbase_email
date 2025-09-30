@@ -1,4 +1,3 @@
-uuid: 38e2495f-25f1-4026-8590-d4118dbe9e6a
 langcode: en
 status: true
 dependencies: {  }
@@ -15,7 +14,7 @@ replyToAddress: ''
 subject: 'Draft Content Reminder: [site:name]'
 inboxPreview: ''
 bodyHtml:
-  value: '<p>Hi [admin_user:display-name],</p><p>This is a reminder that there are unpublished draft content items on <a href="[site:url]"><strong>[site:name]</strong></a>. Below is a list of <strong>outdated drafts</strong> currently awaiting review or publishing.</p><h4>Outdated Drafts</h4><p>[draft_content_html_table]</p><p>&nbsp;</p><p>For a complete overview of all drafts and pending content, please use the moderation interface.</p><p><a href="[site:url]admin/content/moderated">Access Content Moderation</a></p><h4>Next Steps:</h4><ul><li>Review draft content for accuracy and completeness</li><li>Publish items that are ready</li><li>Archive or delete drafts that are no longer needed</li><li>Ensure editorial workflow policies are followed</li></ul><p>This automated reminder helps keep content fresh and ensures no drafts remain forgotten.</p><p>Best regards,<br><strong>[site:name] Content Team</strong></p><p>Generated: <em>[current-date:custom:Y-m-d H:i:s T]</em><br><small>This is an automated editorial workflow notification.</small></p>'
+  value: '<p>Hi [admin_user:display-name],</p><p>This is a reminder that there are unpublished draft content items on <a href="[site:url]"><strong>[site:name]</strong></a>. Below is a list of <strong>outdated drafts</strong> currently awaiting review or publishing.</p><h4>Outdated Drafts</h4><p>[draft_content_html_table]</p><p>[draft_content_total_message]</p><p>&nbsp;</p><p>For a complete overview of all drafts and pending content, please use the moderation interface.</p><p><a href="[site:url]admin/content/moderated">Access Content Moderation</a></p><h4>Next Steps:</h4><ul><li>Review draft content for accuracy and completeness</li><li>Publish items that are ready</li><li>Archive or delete drafts that are no longer needed</li><li>Ensure editorial workflow policies are followed</li></ul><p>This automated reminder helps keep content fresh and ensures no drafts remain forgotten.</p><p>Best regards,<br><strong>[site:name] Content Team</strong></p><p>Generated: <em>[current-date:custom:Y-m-d H:i:s T]</em><br><small>This is an automated editorial workflow notification.</small></p>'
   format: email_html
 bodyPlain: ''
 generateBodyPlain: true
