@@ -4,6 +4,7 @@
  * @file
  * Install, update and uninstall functions for the Varbase Email module.
  */
+
 use Drupal\Core\Recipe\Recipe;
 use Drupal\Core\Recipe\RecipeRunner;
 
