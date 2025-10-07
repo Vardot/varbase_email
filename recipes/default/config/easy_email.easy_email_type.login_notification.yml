@@ -1,8 +1,8 @@
 langcode: en
 status: true
 dependencies: {  }
-id: login_notification
 label: 'Login Notification'
+id: login_notification
 key: ''
 recipient:
   - '[logged_user:mail]'
