@@ -277,6 +277,10 @@ hr {
   border-bottom: 1px solid #f6f6f6;
 }
 
+.view-content table thead tr th {
+  text-align: start;
+}
+
 /* -------------------------------------
     RESPONSIVE AND MOBILE FRIENDLY STYLES
 ------------------------------------- */

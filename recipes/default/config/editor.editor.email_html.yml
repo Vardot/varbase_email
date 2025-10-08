@@ -21,11 +21,6 @@ settings:
       - '|'
       - link
       - '|'
-      - showBlocks
-      - fullScreen
-      - '-'
-      - heading
-      - '|'
       - bold
       - italic
       - underline
@@ -34,8 +29,10 @@ settings:
       - subscript
       - removeFormat
       - '|'
-      - specialCharacters
-      - Emoji
+      - showBlocks
+      - fullScreen
+      - '-'
+      - heading
       - '|'
       - numberedList
       - bulletedList
@@ -44,6 +41,9 @@ settings:
       - '|'
       - alignment
       - direction
+      - '|'
+      - specialCharacters
+      - Emoji
       - '|'
       - wproofreader
       - findAndReplace
@@ -144,8 +144,14 @@ settings:
           replace: $1
     ckeditor5_plugin_pack_find_and_replace__find_and_replace:
       ui_type: dialog
+    ckeditor5_sourceEditing:
+      allowed_tags: {  }
     editor_advanced_link_link:
-      enabled_attributes: {  }
+      enabled_attributes:
+        - class
+        - rel
+        - target
+        - title
 image_upload:
   status: true
   scheme: public
