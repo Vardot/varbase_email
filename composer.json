@@ -16,8 +16,8 @@
     "source": "http://cgit.drupalcode.org/varbase_email"
   },
   "require": {
-    "drupal/core": "~10.5.0 || ~11.2.0",
-    "vardot/varbase-patches": "~10.0.0",
+    "drupal/core": "~10.6.0 || ~11.3.0",
+    "vardot/varbase-patches": "~10",
     "drupal/symfony_mailer": "~1 || ~2"
   }
 }
