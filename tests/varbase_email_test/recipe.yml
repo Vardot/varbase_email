@@ -1,0 +1,9 @@
+name: 'Varbase Email Test'
+description: 'Provisions a Standard site with Varbase Email and Symfony Mailer, including the Varbase mailer policies, for the automated tests.'
+type: 'Testing'
+install:
+  - varbase_email
+  - symfony_mailer
+config:
+  import:
+    varbase_email: '*'

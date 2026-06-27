@@ -1,0 +1,4 @@
+default_transport: sendmail
+override:
+  user: 1
+  update: 1

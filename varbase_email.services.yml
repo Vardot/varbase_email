@@ -1,0 +1,9 @@
+services:
+  Drupal\varbase_email\Hook\VarbaseEmailHooks:
+    arguments:
+      - '@config.factory'
+      - '@language_manager'
+      - '@request_stack'
+      - '@file_url_generator'
+      - '@entity_type.manager'
+      - '@Drupal\Core\Extension\ThemeSettingsProvider'
