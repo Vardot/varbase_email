@@ -1,24 +1,34 @@
 {
-  "name": "drupal/varbase_email",
-  "description": "Varbase email template",
-  "type": "drupal-module",
-  "homepage": "https://www.drupal.org/project/varbase_emails",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Vardot",
-      "homepage": "https://www.drupal.org/vardot",
-      "role": "Maintainer"
+    "name": "drupal/varbase_email",
+    "description": "Varbase email template",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/varbase_emails",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Vardot",
+            "homepage": "https://www.drupal.org/vardot",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/varbase_email",
+        "source": "http://cgit.drupalcode.org/varbase_email"
+    },
+    "require": {
+        "drupal/core": "~11.4.0",
+        "vardot/varbase-patches": "~10.1.0",
+        "drupal/symfony_mailer": "~1 || ~2",
+        "drupal/easy_email": "~3"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true,
+            "vardot/varbase-patches": true,
+            "cweagans/composer-patches": true,
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "oomphinc/composer-installers-extender": true
+        }
     }
-  ],
-  "support": {
-    "issues": "https://www.drupal.org/project/issues/varbase_email",
-    "source": "http://cgit.drupalcode.org/varbase_email"
-  },
-  "require": {
-    "drupal/core": "~11.4.0",
-    "vardot/varbase-patches": "~10.1.0",
-    "drupal/symfony_mailer": "~1 || ~2",
-    "drupal/easy_email": "~3"
-  }
 }
