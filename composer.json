@@ -25,7 +25,12 @@
         "drupal/slick": "~3",
         "drupal/ckeditor_media_embed": "~2",
         "drupal/pathologic": "~2",
-        "drupal/token_filter": "~2"
+        "drupal/token_filter": "~2",
+        "drupal/ckeditor5_plugin_pack": "~1.5.0",
+        "drupal/ckeditor_emoji": "~2",
+        "drupal/ckeditor_bidi": "~5",
+        "drupal/ckeditor5_paste_filter": "~1",
+        "drupal/editor_advanced_link": "~2.3.0"
     },
     "config": {
         "allow-plugins": {

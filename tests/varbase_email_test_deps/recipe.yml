@@ -1,5 +1,5 @@
 name: 'Varbase Email Test Dependencies'
-description: 'Pre-installs the media and editor contrib modules and creates the media view modes that the Varbase Email default recipe email_html text format depends on. On a full Varbase site these are provided by Varbase Media and Varbase Editor; the automated tests run on the Drupal Standard profile, so this helper recipe provisions the minimal subset (media, blazy, slick, ckeditor_media_embed, pathologic, token_filter, ace_editor + the large/medium/small/original media view modes) before the Varbase Email module is installed by tests/varbase_email_test.'
+description: 'Pre-installs the media and CKEditor 5 contrib modules and creates the media view modes that the Varbase Email default recipe (recipes/default) email_html text format and editor depend on. On a full Varbase site these are provided by Varbase Media and Varbase Editor; the automated tests run on the Drupal Standard profile, so this helper recipe provisions the minimal subset (the media stack + the CKEditor 5 plugins whose toolbar items the email_html editor uses: find and replace, full screen, WProofreader, emoji, bidi direction, paste filter and advanced link, plus the large/medium/small/original media view modes) before the Varbase Email module is installed by tests/varbase_email_test.'
 type: 'Testing'
 install:
   - media
@@ -9,3 +9,12 @@ install:
   - pathologic
   - ckeditor_media_embed
   - ace_editor
+  - ckeditor5_paste_filter
+  - editor_advanced_link
+  - ckeditor_emoji
+  - ckeditor_bidi
+  - ckeditor5_plugin_pack
+  - ckeditor5_plugin_pack_find_and_replace
+  - ckeditor5_premium_features
+  - ckeditor5_premium_features_fullscreen
+  - ckeditor5_premium_features_wproofreader
