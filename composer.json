@@ -1,24 +1,45 @@
 {
-  "name": "drupal/varbase_email",
-  "description": "Varbase email template",
-  "type": "drupal-module",
-  "homepage": "https://www.drupal.org/project/varbase_emails",
-  "license": "GPL-2.0-or-later",
-  "authors": [
-    {
-      "name": "Vardot",
-      "homepage": "https://www.drupal.org/vardot",
-      "role": "Maintainer"
+    "name": "drupal/varbase_email",
+    "description": "Varbase email template",
+    "type": "drupal-module",
+    "homepage": "https://www.drupal.org/project/varbase_emails",
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Vardot",
+            "homepage": "https://www.drupal.org/vardot",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/varbase_email",
+        "source": "http://cgit.drupalcode.org/varbase_email"
+    },
+    "require": {
+        "drupal/core": "~11.4.0",
+        "vardot/varbase-patches": "~10.1.0",
+        "drupal/symfony_mailer": "~1 || ~2",
+        "drupal/easy_email": "~3",
+        "drupal/ace_editor": "~2",
+        "drupal/blazy": "~3",
+        "drupal/slick": "~3",
+        "drupal/ckeditor_media_embed": "~2",
+        "drupal/pathologic": "~2",
+        "drupal/token_filter": "~2",
+        "drupal/ckeditor5_plugin_pack": "~1.5.0",
+        "drupal/ckeditor_emoji": "~2",
+        "drupal/ckeditor_bidi": "~5",
+        "drupal/ckeditor5_paste_filter": "~1",
+        "drupal/editor_advanced_link": "~2.3.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true,
+            "vardot/varbase-patches": true,
+            "cweagans/composer-patches": true,
+            "composer/installers": true,
+            "drupal/core-composer-scaffold": true,
+            "oomphinc/composer-installers-extender": true
+        }
     }
-  ],
-  "support": {
-    "issues": "https://www.drupal.org/project/issues/varbase_email",
-    "source": "http://cgit.drupalcode.org/varbase_email"
-  },
-  "require": {
-    "drupal/core": "~11.3.0",
-    "vardot/varbase-patches": "~10.1.0",
-    "drupal/symfony_mailer": "~1 || ~2",
-    "drupal/easy_email": "~3"
-  }
 }

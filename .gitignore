@@ -4,3 +4,14 @@ node_modules
 
 # Ignore yarn
 .yarn/
+
+# Ignore local gitlab-ci-local run artifacts (keep the .gitlab-ci-local.yml config).
+.gitlab-ci-local/
+
+# Ignore test run artifacts.
+tests/reports/*
+!tests/reports/.gitkeep
+tests/screenshots/*
+!tests/screenshots/.gitkeep
+tests/videos/*
+!tests/videos/.gitkeep

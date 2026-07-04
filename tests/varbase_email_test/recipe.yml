@@ -1,0 +1,5 @@
+name: 'Varbase Email Test'
+description: 'Provisions a Standard site with Varbase Email. Installing the module runs its default recipe (Symfony Mailer + Easy Email and the Varbase mailer policies) for the automated tests.'
+type: 'Testing'
+install:
+  - varbase_email
