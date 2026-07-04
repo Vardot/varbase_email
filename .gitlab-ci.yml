@@ -1,103 +1,138 @@
 ################################################################################
-# Self-contained build + validate CI (parity with the Varbase 11.0.x setup).
+# GitLab CI for the Varbase Email module (10.1.x, Drupal ~11.4).
 #
-# `build:composer-validate` gates the pipeline. PHPCS / PHPStan / cspell /
-# eslint / stylelint run as NON-BLOCKING checks (allow_failure) for now, so the
-# pipeline stays green while the code is progressively cleaned; flip a job to
-# `allow_failure: false` to make it gating once its project passes cleanly.
-# Runs on branches, merge requests and tags.
+# Two halves:
+#   1. The standard Drupal CI validation jobs (composer, composer-lint, cspell,
+#      eslint, phpcs, phpstan, stylelint) provided by the drupalci templates.
+#      Every validate job is blocking (allow_failure: false) - strict gating.
+#   2. A webship-js BDD browser-test job (Playwright + Cucumber-js) that runs
+#      the tests/features/drupal/** suite against a freshly installed Drupal
+#      Standard site provisioned by the tests/varbase_email_test recipe (which
+#      installs Varbase Email, Symfony Mailer and Easy Email and imports the
+#      Varbase mailer policies).
 ################################################################################
-stages: [build, validate]
+
+include:
+  - project: $_GITLAB_TEMPLATES_REPO
+    ref: $_GITLAB_TEMPLATES_REF
+    file:
+      - "/includes/include.drupalci.main.yml"
+      - "/includes/include.drupalci.variables.yml"
+      - "/includes/include.drupalci.workflows.yml"
+
 variables:
-  # Drupal 11.4.0 released 2026-07-01; pinned templates ref $CORE_STABLE is still 11.3.
+  # The 10.1.x branch targets Drupal core 11.4 only. Pin the core version and
+  # ignore the project's info.yml core_version_requirement when resolving it.
   DRUPAL_CORE: "11.4.0"
   IGNORE_PROJECT_DRUPAL_CORE_VERSION: "1"
-  COMPOSER_ALLOW_SUPERUSER: "1"
+  COMPOSER_FLAGS: "--no-strict-lock"
   COMPOSER_MEMORY_LIMIT: "-1"
-workflow:
-  rules:
-    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
-    - if: $CI_COMMIT_BRANCH
-    - if: $CI_COMMIT_TAG
+  # Make every drupalci validate job blocking.
+  _ALL_VALIDATE_ALLOW_FAILURE: "0"
+  # No yarn.lock is committed; Yarn 4 defaults to immutable installs and would
+  # refuse to create one. Allow lockfile creation in CI for every job.
+  YARN_ENABLE_IMMUTABLE_INSTALLS: "false"
 
-build:composer-validate:
-  stage: build
-  image: public.ecr.aws/docker/library/composer:2
-  script:
-    - composer validate --no-check-all --no-check-publish
-
-phpcs:
-  stage: validate
-  image: public.ecr.aws/docker/library/php:8.3-cli
-  before_script:
-    - apt-get update -y > /dev/null && apt-get install -y -qq git unzip > /dev/null
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - composer global config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-    - composer global require --no-interaction --no-progress drupal/coder:^8.3 dealerdirect/phpcodesniffer-composer-installer:^1
-    - export PATH="$HOME/.composer/vendor/bin:$PATH"
-  script:
-    - |
-      if [ -f .phpcs.xml ] || [ -f .phpcs.xml.dist ]; then
-        phpcs -p
-      else
-        phpcs -p --standard=Drupal,DrupalPractice --extensions=php,module,inc,install,test,profile,theme,yml,txt,md .
-      fi
-  allow_failure: true
-
-phpstan:
-  stage: validate
-  image: public.ecr.aws/docker/library/php:8.3-cli
-  before_script:
-    - apt-get update -y > /dev/null && apt-get install -y -qq git unzip > /dev/null
-    - curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-    - composer create-project drupal/recommended-project:~$DRUPAL_CORE /drupal --no-interaction --no-install
-    - cd /drupal
-    - composer config --no-plugins allow-plugins true
-    - composer config minimum-stability dev
-    - composer require --no-interaction --no-progress --ignore-platform-reqs mglaman/phpstan-drupal phpstan/extension-installer drush/drush
-    - composer install --no-interaction --no-progress --ignore-platform-reqs
-    - mkdir -p web/modules/custom && cp -r "$CI_PROJECT_DIR" "web/modules/custom/$CI_PROJECT_NAME"
-  script:
-    - cd /drupal
-    - |
-      if [ -f "web/modules/custom/$CI_PROJECT_NAME/phpstan.neon" ]; then
-        php -d memory_limit=2G ./vendor/bin/phpstan analyse -c "web/modules/custom/$CI_PROJECT_NAME/phpstan.neon" --no-progress
-      else
-        php -d memory_limit=2G ./vendor/bin/phpstan analyse "web/modules/custom/$CI_PROJECT_NAME" --level=1 --no-progress
-      fi
-  allow_failure: true
-
+# = Validate stage (all blocking / strict gating) =
+composer-lint:
+  allow_failure: false
 cspell:
-  stage: validate
-  image: public.ecr.aws/docker/library/node:20
-  before_script:
-    - npm install -g cspell
-  script:
-    - |
-      if [ -f .cspell.json ] || [ -f cspell.json ]; then
-        cspell lint . --no-progress
-      else
-        echo "no cspell config - skipping"
-      fi
-  allow_failure: true
-
+  allow_failure: false
 eslint:
-  stage: validate
-  image: public.ecr.aws/docker/library/node:20
-  before_script:
-    - if [ ! -f package.json ]; then echo "no package.json"; exit 0; fi
-    - corepack enable && yarn install --mode=skip-build || true
-  script:
-    - yarn lint:js || true
-    - yarn lint:yaml || true
-  allow_failure: true
-
+  allow_failure: false
+phpcs:
+  allow_failure: false
+phpstan:
+  allow_failure: false
 stylelint:
-  stage: validate
-  image: public.ecr.aws/docker/library/node:20
+  allow_failure: false
+
+# = Reusable before_script fragments (via !reference) =
+.fragments:
+  web_db: &web_db
+    - mkdir -pv $CI_PROJECT_DIR/$_WEB_ROOT/sites/default/files
+    - mkdir -pv $CI_PROJECT_DIR/$_WEB_ROOT/sites/simpletest
+    - chmod -R 777 $CI_PROJECT_DIR/$_WEB_ROOT/sites/default/files
+    - chmod -R 777 $CI_PROJECT_DIR/$_WEB_ROOT/sites/simpletest
+    - rm -rf /var/www/html && ln -s $CI_PROJECT_DIR/$_WEB_ROOT /var/www/html
+    - chown -R www-data:www-data $CI_PROJECT_DIR
+    - service apache2 start
+    - export SIMPLETEST_DB=mysql://$MYSQL_USER:$MYSQL_PASSWORD@database/$MYSQL_DATABASE
+  # Relax the module (and any submodule) core_version_requirement so the
+  # test-site install accepts it: Drupal core 11.4.0 is not installable via the
+  # drupal.org Composer facade yet (caps ~11.3.x), so DRUPAL_CORE=11.4.0
+  # resolves to 11.3.x. Only the checked-out test copy is edited.
+  relax_core: &relax_core
+    - find $CI_PROJECT_DIR -name "*.info.yml" -path "*varbase_email*" -exec sed -i 's/\~11\.4\.0/^11.3 || ^11.4/g' {} +
+    - find $CI_PROJECT_DIR/$_WEB_ROOT -name "*.info.yml" -path "*varbase_email*" -exec sed -i 's/\~11\.4\.0/^11.3 || ^11.4/g' {} + || true
+  node_playwright: &node_playwright
+    - curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    - apt-get install -y nodejs
+    - node --version && npm --version
+    - 'test -f .yarnrc.yml || echo "nodeLinker: node-modules" > .yarnrc.yml'
+    # Back up cucumber.js - webship-js's postinstall can clobber it under yarn 4.
+    - cp cucumber.js .cucumber.js.bak
+    - corepack enable
+    - yarn install
+    - cp .cucumber.js.bak cucumber.js && rm .cucumber.js.bak
+    - ./node_modules/.bin/playwright install --with-deps chromium
+
+# = webship-js BDD - Drupal Standard profile + varbase_email_test recipe =
+webship-js-test:
+  extends: .testing-job-base
+  needs: [composer]
+  timeout: 2h
+  # Only the database service is needed. Playwright bundles its own Chromium,
+  # so Selenium and chromedriver are not required.
+  services:
+    - name: $_CONFIG_DOCKERHUB_ROOT/$_TARGET_DB_TYPE-$_TARGET_DB_VERSION:$_TARGET_DB_IMAGE_TAG
+      alias: database
+  variables:
+    LAUNCH_URL: "http://localhost"
+    FORCE_COLOR: "1"
+  artifacts:
+    when: always
+    paths:
+      - tests/reports/
+      - tests/screenshots/
+      - tests/videos/
+    expire_in: 7 days
   before_script:
-    - if [ ! -f package.json ]; then echo "no package.json"; exit 0; fi
-    - corepack enable && yarn install --mode=skip-build || true
+    - !reference [.fragments, web_db]
+    - git config --global --add safe.directory "$CI_PROJECT_DIR" || true
+    - !reference [.fragments, relax_core]
+    - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT site:install standard
+        --db-url=$SIMPLETEST_DB --account-name=webmaster --account-pass=dD.123123ddd
+        --site-name="Varbase Email Test" -y
+    # Install Varbase Email (its hook_install runs recipes/default: symfony_mailer
+    # + easy_email) via the test recipe, then rebuild caches.
+    - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT recipe $CI_PROJECT_DIR/tests/varbase_email_test -y
+    - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT cache:rebuild
+    - !reference [.fragments, node_playwright]
   script:
-    - yarn lint:css || true
-  allow_failure: true
+    # cucumber.js loads only tests/features/drupal/**. Disable webship-js's auto
+    # HTML hook and run generate-reports explicitly so HTML + PDF land next to
+    # the JSON in tests/reports/.
+    - WEBSHIP_REPORT_DISABLE=1 ./node_modules/.bin/cucumber-js --config cucumber.js --tags "not @wip"
+    - node ./node_modules/webship-js/bin/generate-reports.js
+        --json tests/reports/cucumber_report.json
+        --out  tests/reports/cucumber_report.html
+        --format all
+        --pdf-out tests/reports/cucumber_report.pdf
+  allow_failure: false
+
+# Allow the Varbase stack Composer plugins in the CI build (allow-plugins lives in varbase_project, not modules).
+composer:
+  before_script:
+    - composer config --no-plugins allow-plugins.symfony/runtime true || true
+    - composer config --no-plugins allow-plugins.composer/installers true || true
+    - composer config --no-plugins allow-plugins.cweagans/composer-patches true || true
+    - composer config --no-plugins allow-plugins.oomphinc/composer-installers-extender true || true
+    - composer config --no-plugins allow-plugins.drupal/core-composer-scaffold true || true
+    - composer config --no-plugins allow-plugins.drupal/core-project-message true || true
+    - composer config --no-plugins allow-plugins.dealerdirect/phpcodesniffer-composer-installer true || true
+    - composer config --no-plugins allow-plugins.phpstan/extension-installer true || true
+    - composer config --no-plugins allow-plugins.php-http/discovery true || true
+    - composer config --no-plugins allow-plugins.tbachert/spi true || true
+    - composer config --no-plugins allow-plugins.vardot/varbase-patches true || true
+    - composer require --no-update vardot/varbase-patches:~10.1.0
