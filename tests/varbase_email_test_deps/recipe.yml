@@ -1,0 +1,11 @@
+name: 'Varbase Email Test Dependencies'
+description: 'Pre-installs the media and editor contrib modules and creates the media view modes that the Varbase Email default recipe email_html text format depends on. On a full Varbase site these are provided by Varbase Media and Varbase Editor; the automated tests run on the Drupal Standard profile, so this helper recipe provisions the minimal subset (media, blazy, slick, ckeditor_media_embed, pathologic, token_filter, ace_editor + the large/medium/small/original media view modes) before the Varbase Email module is installed by tests/varbase_email_test.'
+type: 'Testing'
+install:
+  - media
+  - blazy
+  - slick
+  - token_filter
+  - pathologic
+  - ckeditor_media_embed
+  - ace_editor

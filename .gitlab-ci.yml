@@ -104,8 +104,17 @@ webship-js-test:
     - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT site:install standard
         --db-url=$SIMPLETEST_DB --account-name=webmaster --account-pass=dD.123123ddd
         --site-name="Varbase Email Test" -y
+    # Provision the media + editor contrib subset and the media view modes that
+    # the Varbase Email default recipe email_html text format declares as
+    # dependencies. On a full Varbase site these come from Varbase Media and
+    # Varbase Editor; on this Standard test profile the deps helper recipe
+    # provides the minimal set so the module's hook_install recipe imports
+    # cleanly.
+    - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT recipe $CI_PROJECT_DIR/tests/varbase_email_test_deps -y
+    - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT cache:rebuild
     # Install Varbase Email (its hook_install runs recipes/default: symfony_mailer
-    # + easy_email) via the test recipe, then rebuild caches.
+    # + easy_email + the email_html format/editor and the Varbase mailer
+    # policies) via the test recipe, then rebuild caches.
     - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT recipe $CI_PROJECT_DIR/tests/varbase_email_test -y
     - $CI_PROJECT_DIR/vendor/bin/drush --root=$CI_PROJECT_DIR/$_WEB_ROOT cache:rebuild
     - !reference [.fragments, node_playwright]
