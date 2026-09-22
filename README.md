@@ -9,6 +9,6 @@ Check out Varbase documentation for more details.
 * [Configure Symfony Mailer](https://docs.varbase.vardot.com/v/10.0.x/developers/configuring-a-varbase-site/configuring-varbase-mailer-settings/configure-symfony-mailer)
 
 Join Our Slack Team for Feedback and Support
-http://slack.varbase.vardot.com/
+https://varbase.slack.com
 
 This module is sponsored and developed by [Vardot](https://www.drupal.org/vardot).
