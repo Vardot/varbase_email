@@ -23,7 +23,7 @@ include:
 variables:
   # The 10.1.x branch targets Drupal core 11.4 only. Pin the core version and
   # ignore the project's info.yml core_version_requirement when resolving it.
-  DRUPAL_CORE: "11.4.0"
+  DRUPAL_CORE: "11.4.11"
   IGNORE_PROJECT_DRUPAL_CORE_VERSION: "1"
   COMPOSER_FLAGS: "--no-strict-lock"
   COMPOSER_MEMORY_LIMIT: "-1"
@@ -45,6 +45,10 @@ phpcs:
 phpstan:
   allow_failure: false
 stylelint:
+  variables:
+    # Drupal core's own Yarn 4.9.1 would read the project .yarnrc.yml (Yarn >= 4.14 keys) too.
+    YARN_RC_FILENAME: .yarnrc.core.yml
+    YARN_NODE_LINKER: node-modules
   allow_failure: false
 
 # = Reusable before_script fragments (via !reference) =
@@ -66,7 +70,7 @@ stylelint:
     - find $CI_PROJECT_DIR -name "*.info.yml" -path "*varbase_email*" -exec sed -i 's/\~11\.4\.0/^11.3 || ^11.4/g' {} +
     - find $CI_PROJECT_DIR/$_WEB_ROOT -name "*.info.yml" -path "*varbase_email*" -exec sed -i 's/\~11\.4\.0/^11.3 || ^11.4/g' {} + || true
   node_playwright: &node_playwright
-    - curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+    - curl -fsSL https://deb.nodesource.com/setup_24.x | bash -
     - apt-get install -y nodejs
     - node --version && npm --version
     - 'test -f .yarnrc.yml || echo "nodeLinker: node-modules" > .yarnrc.yml'
@@ -129,6 +133,13 @@ varbase-e2e-test:
         --format all
         --pdf-out tests/reports/cucumber_report.pdf
   allow_failure: false
+
+.composer-base:
+  variables:
+    # Every composer job, variants included: Drupal core's own Yarn 4.9.1 would
+    # read the project .yarnrc.yml (Yarn >= 4.14 keys) too.
+    YARN_RC_FILENAME: .yarnrc.core.yml
+    YARN_NODE_LINKER: node-modules
 
 # Allow the Varbase stack Composer plugins in the CI build (allow-plugins lives in varbase_project, not modules).
 composer:
